@@ -14,15 +14,16 @@
 <div class="container hmenu">
     <span class="logo">SOcio-club</span>
     <ul>
-        <li class="menu"><a href="#">My dashboard</a></li>
+        <li class="menu"><a href="{% url 'main' %}">My dashboard</a></li>
          <li class="menu"><a href="#">Images</a></li>
          <li class="menu"><a href="#">People</a></li>
     </ul>
-    <span class="user"> {% if request.user.is_authenticated  %}
+    <span class="user">
+        {% if request.user.is_authenticated  %}
         Hello, {{ request.user.first_name }}
-        <a href="#">Logout</a>
+        <a href="{% url 'logout' %}">Logout</a>
         {% else %}
-        <a href="#">Login</a>
+        <a href="{% url 'login' %}">Login</a>
         {% endif %}
     </span>
 </div>
@@ -31,6 +32,16 @@
 {% block content %}
 {% endblock %}
 </div>
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{message.tags}}">
+                {{ message|safe }}
+                <a href="#" class="close">x</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
 {% block script %}
 {% endblock %}
 </body>

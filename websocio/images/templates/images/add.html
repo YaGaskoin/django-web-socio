@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Add image
+{% endblock %}
+
+{% block content %}
+    <h1>Add image</h1>
+    <p>You can add image using the following form. After that other users will be able to see it, and notice it. </p>
+    <form action="." method="POST">
+        {{image_form.as_p}}
+        {% csrf_token %}
+        <input type="submit" value="Add">
+    </form>
+{% endblock %}

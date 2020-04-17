@@ -10,13 +10,14 @@ Login
 {% if form.errors %}
 <p>Incorrect login or password. Please try again</p>
 {% else %}
-<p>Using following form to log-in. If you not registered yet you can <a href="{% url 'main:register' %}">register</a> now.</p>
+<p>Using following form to log-in. If you not registered yet you can <a href="{% url 'register' %}">register</a> now.</p>
 {% endif %}
  <form action="." method="post">
      {% csrf_token %}
      {{form.as_p}}
-     <input type="hidden" name="next" value="{{next}}">
+     <input type="hidden" name="next" value="{% url 'main' %}">
      <input type="submit" value="Login">
  </form>
+<p><a href="{% url 'password_reset' %}">Forgotten your password?</a></p>
 
 {% endblock %}

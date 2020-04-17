@@ -23,6 +23,12 @@ class RegistrationForm(forms.ModelForm):
         return cd['password2']
 
 
+class UserEdit(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name", "email")
+
+
 class ProfileEdit(forms.ModelForm):
     class Meta:
         model = Profile
