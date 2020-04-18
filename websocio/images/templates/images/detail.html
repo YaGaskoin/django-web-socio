@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block title %}
+    {{image.title}}
+{% endblock %}
+
+{% block content %}
+    <h1>{{image.title}}</h1>
+    {% thumbnail image.image "300" as im %}
+    <a href="{{image.image.url}}">
+        <img src="{{im.url}}">
+        </a>
+    {% endthumbnail %}
+    <p>{{image.description}}</p>
+{% with users_like=image.users_like.all %}
+    <a href="#" data-action="{% if request.user in users_like %}un{% endif %} like" class="like">
+        {% if request.user in users_like %}
+        Unlike
+        {% else %}
+        Like
+        {% endif %}
+    </a>
+{% endwith %}
+{% endblock %}
+
+{% block domready %}
+    console.log("2");
+    $('a.like').click(function(e) {
+    e.preventDefault();
+    console.log("1");
+    $.post("{% url 'images:image_like' %}",
+            {id: $(this).data('id'),
+            action: $(this).data('action')},
+            function(data) {
+                if (data['status'] == 'ok') {
+                    let previous_action = $('a.like').data('action');
+                    $('a.like').data('action', previous_action == 'like'? 'unlike': 'like');
+                    $('a.like').text(previous_action == 'like'? 'Unlike': 'Like')
+                }
+            })
+    })
+{% endblock %}

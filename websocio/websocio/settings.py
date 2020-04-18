@@ -24,7 +24,8 @@ SECRET_KEY = '3l)aiu#z%8*_!43(1st^hcyyq(n*l-l+!h4z5j9h@^km_+h@d*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 ALLOWED_HOSTS = []
 
 
@@ -33,6 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'main',
     'images',
+    'sorl.thumbnail',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
