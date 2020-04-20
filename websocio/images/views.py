@@ -2,7 +2,9 @@ from django.shortcuts import render, get_object_or_404
 from .forms import ImageForm
 from django.contrib import messages
 from .models import Image
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 # Create your views here.
 
@@ -43,3 +45,18 @@ def image_like(request):
         except Exception:
             return JsonResponse({'status': 'error'})
     return JsonResponse({'status': 'ok'})
+
+
+def images(request, page):
+    images = Image.objects.all()
+    paginator = Paginator(images, 2)
+    try:
+        images = paginator.page(page)
+    except PageNotAnInteger:
+        images = paginator.page(1)
+    except EmptyPage:
+        if request.is_ajax():
+            return HttpResponse('')
+    if request.is_ajax():
+        return render(request, "images/images_ajax.html", {"images": images})
+    return render(request, "images/images.html", {"images": images})

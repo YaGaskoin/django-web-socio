@@ -1,0 +1,9 @@
+{% load thumbnail %}
+{% for image in images %}
+<a href="{{image.get_absolute_url}}">
+{% thumbnail image.image "600x600" crop="100%" as im %}
+    <img src="{{im.url}}">
+
+{% endthumbnail %}
+    </a>
+{% endfor %}
