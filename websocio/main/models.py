@@ -7,4 +7,4 @@ from django.conf import settings
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date_birth = models.DateField(blank=True, null=True)
-    photo = models.ImageField(upload_to="user/%Y/%m/%d/", blank=True)
+    photo = models.ImageField(upload_to="images/%Y/%m/%d/", blank=True)

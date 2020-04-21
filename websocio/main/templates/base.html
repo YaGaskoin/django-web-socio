@@ -15,8 +15,8 @@
     <span class="logo">SOcio-club</span>
     <ul>
         <li class="menu"><a href="{% url 'main' %}">My dashboard</a></li>
-         <li class="menu"><a href="#">Images</a></li>
-         <li class="menu"><a href="#">People</a></li>
+         <li class="menu"><a href="{% url 'images:images' 1 %}">Images</a></li>
+         <li class="menu"><a href="{% url 'people:people' 1 %}">People</a></li>
     </ul>
     <span class="user">
         {% if request.user.is_authenticated  %}

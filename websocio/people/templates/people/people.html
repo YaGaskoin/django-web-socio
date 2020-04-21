@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    People
+{% endblock %}
+
+{% block content %}
+    <h1>People</h1>
+<div id="user_list">
+    {% include 'people/people_ajax.html' %}
+    </div>
+{% endblock %}
+
+{% block domready %}
+    let page = 1;
+    let empty_page = false;
+    $(window).scroll = function() {
+        if(document.documentElement.getBoundingClientRect().bottom < document.documentElement.clientHeight + 100 && !empty_page) {
+            page += 1;
+            $.get("{% url 'people:people' page=12345 %}".replace("12345", page.toString()), function(data) {
+                if(data == "") {
+                    empty_page=true;
+                }else{
+                    $("#user_list").append(data);
+                }
+            })
+        }
+    }
+{% endblock %}
