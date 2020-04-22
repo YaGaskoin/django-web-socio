@@ -4,6 +4,7 @@ from django.contrib import messages
 from .models import Image
 from django.http import JsonResponse, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from actions.utils import create_action
 
 
 # Create your views here.
@@ -17,6 +18,7 @@ def add_image(request):
             image_save.user = request.user
             image_save.save()
             messages.success(request, "Image saved successfully!")
+            create_action(request.user, "added image", image_save)
         else:
             messages.error(request, "Image save error")
     else:
@@ -40,6 +42,7 @@ def image_like(request):
             image = Image.objects.get(id=image_id)
             if image_action == 'like':
                 image.users_like.add(request.user)
+                create_action(request.user, "likes", image)
             else:
                 image.users_like.delete(request.user)
         except Exception:

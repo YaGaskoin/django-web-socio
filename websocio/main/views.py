@@ -1,13 +1,19 @@
 from django.shortcuts import render
 from . forms import RegistrationForm, ProfileEdit, UserEdit
-from .models import Profile
+from .models import Profile, Contact
 from django.contrib import messages
+from actions.models import Action
 
 # Create your views here.
 
 
 def dashboard(request):
-    return render(request, 'main/dashboard.html')
+    actions = Action.objects.exclude(user=request.user)
+    following_ids = request.user.following.values_list('id', flat=True)
+    if following_ids:
+        actions = actions.filter(user_id__in=following_ids)
+    actions = actions.select_related('user', 'user__profile').prefetch_related('target')[:10]
+    return render(request, 'main/dashboard.html', {'actions': actions})
 
 
 def register(request):

@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'main',
     'images',
     'people',
+    'actions',
     'sorl.thumbnail',
     'django.contrib.admin',
     'django.contrib.auth',

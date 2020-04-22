@@ -19,6 +19,15 @@
             <li>last_name:{{user.las_name}}</li>
             <li>birthdate:{{profile.date_birth}}</li>
         </ul>
+        {% if request.user != user %}
+            <a href="#" data-id="{{user.id}}" data-action="{% if request.user in user.followers.all %}un{% endif %}follow" class="follow button">
+                {% if request.user in user.followers %}
+                Unfollow
+                {% else %}
+                Follow
+                {% endif %}
+            </a>
+        {% endif %}
     </div>
 </div>
 <h2>Last added images</h2>
@@ -31,4 +40,21 @@
         </a>
     {% endfor %}
 </div>
+{% endblock %}
+
+{% block domready %}
+    $('a.follow').click(function(e){
+        e.preventDefault();
+        $.post("{% url 'people:user_detail' id=12345%}".replace(/12345/, $("a.follow").data('id')),
+            {
+                action: $(this).data('action')
+            },
+        function(data) {
+            if( data['status'] === 'ok') {
+                $("a.follow").data("action",
+                $("a.follow").data("action") === "follow"? "unfollow": "follow");
+                $("a.follow").text($("a.follow").data("action") === "follow"?"Unfollow": "Follow");
+            }
+        });
+    });
 {% endblock %}
