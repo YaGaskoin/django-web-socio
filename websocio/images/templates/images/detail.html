@@ -7,20 +7,22 @@
 
 {% block content %}
     <h1>{{image.title}}</h1>
-    {% thumbnail image.image "300" as im %}
+    {% thumbnail image.image "800" as im %}
     <a href="{{image.image.url}}">
         <img src="{{im.url}}">
         </a>
     {% endthumbnail %}
     <p>{{image.description}}</p>
-{% with users_like=image.users_like.all %}
-    <a href="#" data-action="{% if request.user in users_like %}un{% endif %} like" class="like">
+{% with users_like=image.users_like.all  count=image.users_like.count%}
+<span ><span class="count">{{count}}</span> likes</span>
+    <a href="#"  data-id="{{image.id}}" data-action="{% if request.user in users_like %}un{% endif %}like" class="like">
         {% if request.user in users_like %}
         Unlike
         {% else %}
         Like
         {% endif %}
     </a>
+<br><span>Added by <a href="{% url 'people:user_detail' image.user.id %}">{{image.user.username}}</a></span>
 {% endwith %}
 {% endblock %}
 
@@ -35,8 +37,10 @@
             function(data) {
                 if (data['status'] == 'ok') {
                     let previous_action = $('a.like').data('action');
+                    console.log(previous_action);
                     $('a.like').data('action', previous_action == 'like'? 'unlike': 'like');
                     $('a.like').text(previous_action == 'like'? 'Unlike': 'Like')
+                    $('span.count').text(previous_action == 'like'? parseInt($('span.count').text()) + 1: parseInt($('span.count').text()) - 1)
                 }
             })
     })

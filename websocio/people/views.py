@@ -6,10 +6,12 @@ from images.models import Image
 from main.models import Profile, Contact
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from actions.utils import create_action
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 
+@login_required
 def user_detail(request, id):
     if request.method == "POST":
         follower_action = request.POST.get("action")
@@ -21,6 +23,7 @@ def user_detail(request, id):
             else:
                 Contact.objects.filter(user_from=request.user, user_to=user_to).delete()
                 create_action(request.user, "unfollowed", user_to)
+            print(1)
             return JsonResponse({"status": "ok"})
         except User.DoesNotExist:
             return JsonResponse({'status': 'error'})
@@ -30,6 +33,7 @@ def user_detail(request, id):
     return render(request, 'people/user_detail.html', {'user': user, 'images': user_images[:10], 'profile': profile})
 
 
+@login_required
 def people(request, page):
     users = User.objects.all()
     paginator = Paginator(users, 2)

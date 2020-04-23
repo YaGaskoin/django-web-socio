@@ -3,10 +3,12 @@ from . forms import RegistrationForm, ProfileEdit, UserEdit
 from .models import Profile, Contact
 from django.contrib import messages
 from actions.models import Action
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 
+@login_required
 def dashboard(request):
     actions = Action.objects.exclude(user=request.user)
     following_ids = request.user.following.values_list('id', flat=True)
@@ -31,6 +33,7 @@ def register(request):
     return render(request, 'registration/register.html', {'register_form': register_form})
 
 
+@login_required
 def edit(request):
     if request.method == "POST":
         user_form = UserEdit(data=request.POST, instance=request.user)

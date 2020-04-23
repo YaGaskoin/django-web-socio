@@ -1,8 +1,11 @@
 {% load thumbnail %}
 {% for image in images %}
 <a href="{{image.get_absolute_url}}">
-{% thumbnail image.image "600x600" crop="100%" as im %}
+{% thumbnail image.image "500x500" as im %}
+    <div class="image-block">
+        <span class="image_name">{{image.title}}</span><br>
     <img src="{{im.url}}">
+        </div>
 
 {% endthumbnail %}
     </a>

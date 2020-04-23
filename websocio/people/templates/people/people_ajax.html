@@ -1,12 +1,14 @@
 {% load thumbnail %}
 
 {% for user in users %}
-    {% thumbnail user.profile.photo "200x200" crop="100% top" as im %}
-        <a href="{% url 'people:user_detail' user.id %}">
+    {% thumbnail user.profile.photo "200x200" crop="50%" as im %}
+         <a href="{% url 'people:user_detail' user.id %}">
+            <div class="user-block">
+                <span>{{user.username}}</span><br>
             <img src="{{im.url}}">
-        </a>
+            </div>
+              </a>
     {% endthumbnail %}
-    <span> {{user.first_name}} {{user.last_name}}</span>
 {% endfor %}
 
 
