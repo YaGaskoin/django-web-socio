@@ -9,6 +9,8 @@ verify_ssl = true
 django = "*"
 pillow = "*"
 sorl-thumbnail = "*"
+redis = "*"
+social-auth-app-django = "*"
 
 [requires]
 python_version = "3.7"

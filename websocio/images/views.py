@@ -1,3 +1,4 @@
+import redis
 from django.shortcuts import render, get_object_or_404
 from .forms import ImageForm
 from django.contrib import messages
@@ -6,9 +7,12 @@ from django.http import JsonResponse, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from actions.utils import create_action
 from django.contrib.auth.decorators import login_required
+from comments.forms import CommentForm
+from comments.models import Comment
 
 
 # Create your views here.
+r = redis.Redis(host="localhost", port=6379, db=0)
 
 
 @login_required
@@ -28,13 +32,15 @@ def add_image(request):
     return render(request, "images/add.html", {'image_form': image_form})
 
 
-#def images(request):
-
-
 @login_required
 def detail(request, id, slug):
     image = get_object_or_404(Image, id=id, slug=slug)
-    return render(request, 'images/detail.html', {'image': image})
+    total_views = r.incr("image:{}:views".format(image.id))
+    r.zincrby("image_ranking", image.id, 1)
+    comments = Comment.objects.filter(image_id=image.id)
+    comment_form = CommentForm()
+    return render(request, 'images/detail.html', {'image': image, 'total_views': total_views,
+                                                  'comment_form': comment_form, 'comments': comments})
 
 
 @login_required

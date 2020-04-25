@@ -1,0 +1,13 @@
+{% load thumbnail %}
+{% for comment in comments %}
+<div>
+    <p>created: {{comment.created}}</p>
+<a href="{% url 'people:user_detail' comment.user.id %}">
+{% thumbnail comment.image.image "50x50" as im %}
+    <img src="{{im.url}}">
+{% endthumbnail %}
+    {{comment.user.username}}
+    </a>
+<label>{{comment.body}}</label>
+    </div>
+{% endfor %}

@@ -26,7 +26,7 @@ SECRET_KEY = '3l)aiu#z%8*_!43(1st^hcyyq(n*l-l+!h4z5j9h@^km_+h@d*'
 DEBUG = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'mysite.com']
 LOGIN_URL = '/main/login'
 
 # Application definition
@@ -36,7 +36,9 @@ INSTALLED_APPS = [
     'images',
     'people',
     'actions',
+    'comments',
     'sorl.thumbnail',
+    'social_django',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

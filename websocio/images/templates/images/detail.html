@@ -14,6 +14,7 @@
     {% endthumbnail %}
     <p>{{image.description}}</p>
 {% with users_like=image.users_like.all  count=image.users_like.count%}
+<span>{{total_views}} views</span><br>
 <span ><span class="count">{{count}}</span> likes</span>
     <a href="#"  data-id="{{image.id}}" data-action="{% if request.user in users_like %}un{% endif %}like" class="like">
         {% if request.user in users_like %}
@@ -22,15 +23,34 @@
         Like
         {% endif %}
     </a>
-<br><span>Added by <a href="{% url 'people:user_detail' image.user.id %}">{{image.user.username}}</a></span>
+<br><br><span>Added by <a href="{% url 'people:user_detail' image.user.id %}">{{image.user.username}}</a></span>
+<div class="comments"> {% include 'comments/comments_ajax.html' %}</div>
+<div class="comment_form">
+    <textarea cols="5" style="width:100%" id="comment_text"></textarea>
+    <a href="#" class="comment_btn" data-id="{{image.id}}">Отправить</a>
+</div>
 {% endwith %}
 {% endblock %}
 
 {% block domready %}
-    console.log("2");
+    $('a.comment_btn').click(function(e){
+      e.preventDefault();
+
+      if($('#comment_text').val() != '')(
+      $.post("{% url 'comments:add_comment' %}",
+          {id: $('a.comment_btn').data('id'),
+          text: $('#comment_text').val()},
+          function(data) {
+            $('#comment_text').val('');
+          $('div.comments').append(data);
+          }
+      ));
+    });
+
+
+
     $('a.like').click(function(e) {
     e.preventDefault();
-    console.log("1");
     $.post("{% url 'images:image_like' %}",
             {id: $(this).data('id'),
             action: $(this).data('action')},
