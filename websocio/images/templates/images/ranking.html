@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+<p>Here is most popular images on our site.</p>
+<br><br>
+<ol>
+{% for image in images %}
+    <li>
+        <a href="{{image.get_absolute_url}}">{{image.title}}</a>
+    </li>
+{% endfor %}
+    </ol>

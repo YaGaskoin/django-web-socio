@@ -1,13 +1,23 @@
 {% load thumbnail %}
 {% with user=action.user profile=action.user.profile %}
-<div class="action">  <div class="images">
+<div class="action ">  <div class="images">
+  <span class="date">{{ action.created|timesince }} ago</span>
     {% if profile.photo %}
       {% thumbnail user.profile.photo "80x80" crop="100%" as im %}
         <a href="{% url 'people:user_detail' user.id %}">
-          <img src="{{ im.url }}" alt="{{ user.get_full_name }}" class="item-img">
+          <img src="{{ im.url }}" alt="{{ user.get_full_name }}" class="user-img">
         </a>
       {% endthumbnail %}
     {% endif %}
+  {%if action.verb == 'commented'%}
+  <img src="/media/comment.png" class="comment-img">
+  {%endif%}
+   {%if action.verb == 'likes'%}
+  <img src="/media/like.png" class="like-img">
+  {%endif%}
+   {%if action.verb == 'added image'%}
+  <img src="/media/plus.png" class="plus-img">
+  {%endif%}
     {% if action.target %}
       {% with target=action.target %}
         {% if target.image %}
@@ -19,10 +29,10 @@
         {% endif %}
       {% endwith %}
     {% endif %}
+  <br />
   </div>
   <div class="info">
     <p>
-      <span class="date">{{ action.created|timesince }} ago</span><br />
       <a href="{% url 'people:user_detail' user.id %}">{{ user.username }}</a>
       {{ action.verb }}
       {% if action.target %}

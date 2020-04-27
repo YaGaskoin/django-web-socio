@@ -1,3 +1,64 @@
 header {
     background-color: #6699FF;
 }
+h1{
+    border-bottom:1px solid grey;
+}
+
+div.action {
+    background: #BFD5FF;
+    margin: 50px auto;
+    padding: 10px 10px;
+    border-radius: 10px;
+}
+span.date{
+
+    display: block;
+    text-align: right;
+}
+img.user-img{
+    border-radius: 30px;
+}
+img.item-img{
+    border-radius: 10px;
+}
+
+img.comment-img{
+
+    width: 80px;
+    height: 80px;
+}
+img.like-img{
+    width: 100px;
+    height: 60px;
+}
+img.plus-img{
+    width: 60px;
+    height: 60px;
+    margin: 20px 20px 0px 20px;
+}
+span.logo{
+    font-size:24px;
+    color:white;
+}
+
+ul{
+    list-style-type: none;
+    padding-left: 0px;
+}
+ul a{
+    font-size: 18px;
+    text-decoration: none;
+    color: #4A1AFC;
+}
+ul a:hover{
+    color:white;
+}
+
+a{
+    color: #3F7FFF;
+    text-decoration:none;
+}
+a:hover{
+    color:#4A1AFC;
+}
